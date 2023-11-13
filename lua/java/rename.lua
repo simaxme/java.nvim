@@ -1,14 +1,16 @@
 local java_rename = {}
 
-local utils = require("java-rename.utils")
-local ripgrep = require("java-rename.ripgrep")
-local buffer = require("java-rename.buffer")
+local utils = require("java.rename.utils")
+local ripgrep = require("java.rename.ripgrep")
+local buffer = require("java.rename.buffer")
 
-local regex_class_declaration = require("java-rename.regex.class-declaration")
-local regex_package_declaration = require("java-rename.regex.package-declaration")
-local regex_import_declaration = require("java-rename.regex.import-declaration")
-local regex_symbol_usage = require("java-rename.regex.symbol-usage")
-local regex_fix_import_declaration = require("java-rename.regex.fix-import-declaration")
+local regex_class_declaration = require("java.rename.regex.class-declaration")
+local regex_package_declaration = require("java.rename.regex.package-declaration")
+local regex_import_declaration = require("java.rename.regex.import-declaration")
+local regex_symbol_usage = require("java.rename.regex.symbol-usage")
+local regex_fix_import_declaration = require("java.rename.regex.fix-import-declaration")
+
+local options = require("java.rename.options")
 
 
 -- will return the package name of a specified buffer
@@ -56,26 +58,49 @@ function java_rename.on_rename_file(old_name, new_name)
     local old_class_path = old_package_name .. "." .. old_class_name
     local new_class_path = new_package_name .. "." .. new_class_name
 
+    local opts = options.get_rename_options()
 
     -- replace class name declaration in class file
-    buffer.open(new_name)
+    local state = buffer.open(new_name)
     regex_class_declaration.replace_class_declaration(old_class_name, new_class_name)
     regex_package_declaration.replace_package_declaration(old_package_name, new_package_name)
+
+    if opts.write_and_close then
+        vim.cmd.write()
+        if not state then
+            vim.cmd.bd()
+        end
+    end
 
     regex_fix_import_declaration.fix_import_declarations(old_folder, new_folder, old_class_path, new_class_path, old_class_name)
 
     local occurences = ripgrep.searchRegex(old_class_name)
 
     for _, file in ipairs(occurences) do
-        buffer.open(file)
+        local state = buffer.open(file)
 
         regex_import_declaration.replace_import_declaration(old_class_path, new_class_path)
         regex_symbol_usage.replace_symbol_usage(old_class_name, new_class_name)
+
+        if opts.write_and_close then
+            vim.cmd.write()
+            if not state then
+                vim.cmd.bd()
+            end
+        end
     end
+
+    buffer.open(new_name)
 end
 
-function java_rename.setup()
-    require("java-rename.nvim-tree").setup()
+function java_rename.setup(opts)
+    options.setup(opts)
+
+    local opts = options.get_rename_options()
+
+    if opts.nvimtree then
+        require("java.rename.nvim-tree").setup()
+    end
 end
 
 

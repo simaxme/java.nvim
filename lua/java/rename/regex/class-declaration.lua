@@ -1,6 +1,6 @@
 local class_declaration = {}
 
-local buffer = require("java-rename.buffer")
+local buffer = require("java.rename.buffer")
 
 function class_declaration.replace_class_declaration(old_class_name, new_class_name)
     local line_result = buffer.read_buffer_lines()

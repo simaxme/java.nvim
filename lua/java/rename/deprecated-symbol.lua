@@ -2,8 +2,8 @@
 
 local symbol = {}
 
-local utils = require("java-rename.utils")
-local buffer = require("java-rename.buffer")
+local utils = require("java.rename.utils")
+local buffer = require("java.rename.buffer")
 
 -- focus the class symbol in the current java buffer
 function symbol.focus_class(class_name)
