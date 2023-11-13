@@ -3,8 +3,8 @@ local nvimTreeIntegration = {}
 -- initialise nvim tree integration
 
 function nvimTreeIntegration.setup()
-    local java_rename = require("java-rename")
-    local utils = require("java-rename.utils")
+    local java_rename = require("java.rename")
+    local utils = require("java.rename.utils")
 
     local status, api = pcall(require, "nvim-tree.api")
 

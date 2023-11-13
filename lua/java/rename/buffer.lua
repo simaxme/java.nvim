@@ -1,6 +1,6 @@
 local buffer = {}
 
-local utils = require("java-rename.utils")
+local utils = require("java.rename.utils")
 
 function buffer.read_buffer_lines()
     local line_count = vim.api.nvim_buf_line_count(0)
@@ -37,10 +37,13 @@ function buffer.open(name)
     if vim.fn.bufexists(name) == 1 then
         local bufnumber = vim.fn.bufnr(name)
         vim.cmd.buffer(bufnumber)
-        return
+        return true
     end
 
     vim.cmd.edit(name)
+
+    return false
 end
+
 
 return buffer

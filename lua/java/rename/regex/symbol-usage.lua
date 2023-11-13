@@ -1,6 +1,6 @@
 local symbol_usage = {}
 
-local buffer = require("java-rename.buffer")
+local buffer = require("java.rename.buffer")
 
 local function generate_regex(class_name)
     return string.format(

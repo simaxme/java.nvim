@@ -1,6 +1,6 @@
 local import_declaration = {}
 
-local buffer = require("java-rename.buffer")
+local buffer = require("java.rename.buffer")
 
 local function generate_regex(package_path)
     local mapped = package_path:gsub("%.", "%%.")

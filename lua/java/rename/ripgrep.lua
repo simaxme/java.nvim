@@ -1,6 +1,6 @@
 local ripgrep = {}
 
-local utils = require("java-rename.utils")
+local utils = require("java.rename.utils")
 
 function ripgrep.searchRegex(regex, folder, depth)
     if folder == nil then
