@@ -18,11 +18,12 @@ In current state, this plugin is a addition to [nvim-jdtls](https://github.com/m
 I hope this plugin wil help someone with this basic feature of file refactoring. 
 
 ## Why have I named it java.nvim?
-This can be simply answered: I want to add some features besides the refactoring of files that are helping in everyday Java use. For instance, I will try to add the ability for simple LuaSnip snippets that allow you, to create a default class/interface/enum by using a simple snippet without needing to write all the same stuff again and again.
+This can be simply answered: I want to add some features besides the refactoring of files that are helping in everyday Java use. For instance, I will try to add the ability for simple LuaSnip snippets that allow you to create a default class/interface/enum by using a simple snippet without needing to write all the same stuff again and again.
 
 ## Installing the plugin
 The plugin can be easily installed using dusing different Plugin Managers.
-*Lazy*
+
+**Lazy**
 ```lua
 -- other lazy stuff
 {
