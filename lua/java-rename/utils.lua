@@ -20,4 +20,70 @@ function utils.split(search_string, pattern)
   return result
 end
 
+function utils.is_dir(path)
+    local f = io.open(path, "r")
+    local ok, err, code = f:read(1)
+    f:close()
+    return code == 21
+end
+
+function utils.list_folder_contents_recursive(folder)
+   local result = {}
+
+   local handle = io.popen("cd '" .. folder .. "' && find * -type f")
+
+   while handle ~= nil do
+      local line = handle:read("l")
+
+      if line == nil then
+         break
+      end
+
+      table.insert(result, line)
+   end
+
+   return result
+end
+
+function utils.list_folder_contents(folder)
+   local result = {}
+
+   local command = "cd '" .. folder .. "' && find * -maxdepth 0 -type f"
+   vim.notify(command)
+   local handle = io.popen(command)
+
+   while handle ~= nil do
+      local line = handle:read("l")
+
+      if line == nil then
+         break
+      end
+
+      local l = string.find(line, "%.java$")
+
+      if l ~= nil then
+         table.insert(result, folder .. "/" .. line)
+      end
+   end
+
+   return result
+end
+
+
+
+function utils.realpath(path)
+   local cmd = "realpath '" .. path .. "'"
+   local handle = io.popen(cmd)
+
+   if handle == nil then
+      return path
+   end
+
+   local result = handle:read("*l")
+   
+   handle:close()
+
+   return result
+end
+
 return utils
