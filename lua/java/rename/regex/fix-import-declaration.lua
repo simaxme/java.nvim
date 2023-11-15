@@ -63,7 +63,7 @@ local function add_import_declerations(old_folder, new_class_path, old_class_nam
         local start_index, end_index = string.find(lines, regex)
         local addition = "import " .. new_class_path .. ";\n"
 
-        -- if there is no import statement, insert the import statement after the package declarations
+        -- if there is no import statement, insert the import statement after the package declaration
         if start_index == nil then
             local regex = "package( +)([A-Za-z%.]*)( *)%;( *)\n"
             start_index, end_index = string.find(lines, regex)
