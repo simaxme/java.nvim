@@ -2,6 +2,7 @@ local import_declaration = {}
 
 local buffer = require("java.rename.buffer")
 
+-- generate a regex for finding old class path imports
 local function generate_regex(package_path)
     local mapped = package_path:gsub("%.", "%%.")
 
@@ -12,6 +13,9 @@ local function generate_regex(package_path)
 
 end
 
+-- will replace old class path imports with new class path imports
+-- @param old_class_path the old class path
+-- @param new_class_path the new class path
 function import_declaration.replace_import_declaration(old_class_path, new_class_path)
     -- search import statements and replace them with new class path
 
