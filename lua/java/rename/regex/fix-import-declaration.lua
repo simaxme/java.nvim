@@ -5,9 +5,10 @@ local buffer = require("java.rename.buffer")
 local ripgrep = require("java.rename.ripgrep")
 local options = require("java.rename.options")
 
-
-local function generate_import_regex(package_path)
-    local mapped = package_path:gsub("%.", "%%.")
+-- generate a regex for looking for import statements
+-- @param class_path the class path to look for
+local function generate_import_regex(class_path)
+    local mapped = class_path:gsub("%.", "%%.")
 
     return string.format(
         "import( +)%s( *);( *)(\n?)",
@@ -15,6 +16,9 @@ local function generate_import_regex(package_path)
     )
 end
 
+-- look for old import declarations in the new folder/package and delete them
+-- @param new_folder the folder where the class file was moved to
+-- @param old_class_path the old_class_path whose import declarations should be deleted.
 local function delete_import_declarations(new_folder, old_class_path)
     local opts = options.get_rename_options()
 
@@ -40,6 +44,10 @@ local function delete_import_declarations(new_folder, old_class_path)
     end
 end
 
+-- add import declarations of the new class name to the classes of the old folder
+-- @param old_folder the path of the old_folder
+-- @param new_class_path the path of the new class
+-- @param old_class_name the name of the old class
 local function add_import_declerations(old_folder, new_class_path, old_class_name)
     local opts = options.get_rename_options()
 

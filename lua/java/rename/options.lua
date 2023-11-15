@@ -2,6 +2,7 @@ local rename_options = {}
 
 local options
 
+-- setup the options for the rename functionality
 function rename_options.setup(opts)
     if opts == nil then
         opts = {

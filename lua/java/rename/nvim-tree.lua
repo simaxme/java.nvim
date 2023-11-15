@@ -1,7 +1,7 @@
 local nvimTreeIntegration = {}
 
 -- initialise nvim tree integration
-
+-- will automaticly subscribe to the NodeRenamed event and execute the on_rename_file method
 function nvimTreeIntegration.setup()
     local java_rename = require("java.rename")
     local utils = require("java.rename.utils")

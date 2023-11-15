@@ -2,6 +2,7 @@ local class_declaration = {}
 
 local buffer = require("java.rename.buffer")
 
+-- will look for the class declaration in the renamed java file and rename the class name
 function class_declaration.replace_class_declaration(old_class_name, new_class_name)
     local line_result = buffer.read_buffer_lines()
 

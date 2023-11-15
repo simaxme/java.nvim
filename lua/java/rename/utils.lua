@@ -20,6 +20,7 @@ function utils.split(search_string, pattern)
   return result
 end
 
+-- check if a path is a directory
 function utils.is_dir(path)
     local f = io.open(path, "r")
     local ok, err, code = f:read(1)
@@ -27,6 +28,7 @@ function utils.is_dir(path)
     return code == 21
 end
 
+-- list all files in a folder using recursive
 function utils.list_folder_contents_recursive(folder)
    local result = {}
 
@@ -45,11 +47,11 @@ function utils.list_folder_contents_recursive(folder)
    return result
 end
 
+-- list all files in a folder
 function utils.list_folder_contents(folder)
    local result = {}
 
    local command = "cd '" .. folder .. "' && find * -maxdepth 0 -type f"
-   vim.notify(command)
    local handle = io.popen(command)
 
    while handle ~= nil do
@@ -69,8 +71,7 @@ function utils.list_folder_contents(folder)
    return result
 end
 
-
-
+-- get the real/full path of the given path
 function utils.realpath(path)
    local cmd = "realpath '" .. path .. "'"
    local handle = io.popen(cmd)
