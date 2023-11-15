@@ -58,11 +58,21 @@ local function add_import_declerations(old_folder, new_class_path, old_class_nam
 
         local lines = buffer.read_buffer_lines()
 
-        local regex = "import( +)([A-Za-z%.]*)( *);"
+        local regex = "import( +)([A-Za-z%.]*)( *)%;"
 
         local start_index, end_index = string.find(lines, regex)
+        local addition = "import " .. new_class_path .. ";\n"
 
-        local result = lines:sub(0, start_index - 1) .. "import " .. new_class_path .. ";\n" .. lines:sub(start_index, #lines)
+        -- if there is no import statement, insert the import statement after the package declarations
+        if start_index == nil then
+            local regex = "package( +)([A-Za-z%.]*)( *)%;( *)\n"
+            start_index, end_index = string.find(lines, regex)
+            start_index = end_index+1
+
+            addition = "\nimport " .. new_class_path .. ";"
+        end
+
+        local result = lines:sub(0, start_index - 1) .. addition .. lines:sub(start_index, #lines)
 
         buffer.write_buffer_lines(result)
 
