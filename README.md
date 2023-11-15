@@ -55,4 +55,4 @@ require("java").setup {
 ```
 
 ## After configuration
-Go to your nvim-tree pane and execute a simple `rn` on a java file or a package. Magic will happen and you will not have to do anything 🙃.
+Go to your nvim-tree pane and execute a simple `r` on a java file or a package. Magic will happen and you will not have to do anything 🙃.
