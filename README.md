@@ -11,7 +11,7 @@ I am a Java developer and am loving to use neovim. Nevertheless, refactoring was
 ## Dependencies
 - [ripgrep](https://github.com/BurntSushi/ripgrep)
 - [nvim-tree.lua](https://github.com/nvim-tree/nvim-tree.lua) (currently the only supported file editor, other may come later if requested)
-- (recommended) [nvim-jdtls](https://github.com/mfussenegger/nvim-jdtls)
+- [nvim-jdtls](https://github.com/mfussenegger/nvim-jdtls) (recommended)
 
 ## Function of this plugin
 In current state, this plugin is a addition to [nvim-jdtls](https://github.com/mfussenegger/nvim-jdtls) while jdtls is not necessary but recommended. It allows you to rename .java files and looks for any reference to the name and updates the import statements and symbol usages automaticaly. This does only work due to the use of lua-patterns and regex. 
@@ -19,6 +19,10 @@ I hope this plugin wil help someone with this basic feature of file refactoring.
 
 ## Why have I named it java.nvim?
 This can be simply answered: I want to add some features besides the refactoring of files that are helping in everyday Java use. For instance, I will try to add the ability for simple LuaSnip snippets that allow you to create a default class/interface/enum by using a simple snippet without needing to write all the same stuff again and again.
+
+## Supported platforms
+- Linux
+- MacOS
 
 ## Installing the plugin
 The plugin can be easily installed using dusing different Plugin Managers.
