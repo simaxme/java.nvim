@@ -6,9 +6,14 @@ local options
 function rename_options.setup(opts)
     if opts == nil then
         opts = {
+            enable = true,
             nvimtree = true,
             write_and_close = false
         }
+    end
+
+    if opts.enable == nil then
+        opts.enable = true
     end
 
     if opts.nvimtree == nil then

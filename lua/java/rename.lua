@@ -128,6 +128,10 @@ function java_rename.setup(opts)
 
     local opts = options.get_rename_options()
 
+    if not opts.enable then
+        return
+    end
+
     if opts.nvimtree then
         require("java.rename.nvim-tree").setup()
     end
