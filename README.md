@@ -11,6 +11,7 @@ I am a Java developer and am loving to use neovim. Nevertheless, refactoring was
 ## Dependencies
 - [ripgrep](https://github.com/BurntSushi/ripgrep)
 - [nvim-tree.lua](https://github.com/nvim-tree/nvim-tree.lua) (currently the only supported file editor, other may come later if requested)
+- [LuaSnip](https://github.com/L3MON4D3/LuaSnip) (recommended for some java snippets)
 - [nvim-jdtls](https://github.com/mfussenegger/nvim-jdtls) (recommended)
 
 ## Function of this plugin
@@ -48,11 +49,21 @@ However, there are some tweaks you can make (default configuration):
 ```lua
 require("java").setup {
     rename = {
+        enable = true, -- enable the functionality for renaming java files
         nvimtree = true, -- enable nvimtree integration
         write_and_close = false -- automatically write and close modified (previously unopened) files after refactoring a java file
+    },
+    snippets = {
+        enable = true -- enable the functionality for java snippets
     }
 }
 ```
+
+## All current functionalities
+
+- [x] Detect file renames in nvim-tree and automatically update the class name and every associated files with the symbol.
+- [x] Snippet integration with LuaSnip
+ - [x] type `class`, `interface` or `enum` in an empty java file to automatically create a package and class/enum/interface declaration in the file.
 
 ## After configuration
 Go to your nvim-tree pane and execute a simple `r` on a java file or a package. Magic will happen and you will not have to do anything 🙃.
