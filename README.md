@@ -15,7 +15,7 @@ I am a Java developer and am loving to use neovim. Nevertheless, refactoring was
 - [nvim-jdtls](https://github.com/mfussenegger/nvim-jdtls) (recommended)
 
 ## Function of this plugin
-In current state, this plugin is a addition to [nvim-jdtls](https://github.com/mfussenegger/nvim-jdtls) while jdtls is not necessary but recommended. It allows you to rename .java files and looks for any reference to the name and updates the import statements and symbol usages automaticaly. This does only work due to the use of lua-patterns and regex. 
+In current state, this plugin is a addition to [nvim-jdtls](https://github.com/mfussenegger/nvim-jdtls). It allows you to rename .java files and looks for any reference to the name and updates the import statements and symbol usages automaticaly. This does only work due to the use of lua-patterns and regex. 
 I hope this plugin wil help someone with this basic feature of file refactoring. 
 
 ## Why have I named it java.nvim?
