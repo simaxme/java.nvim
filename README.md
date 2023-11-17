@@ -63,7 +63,7 @@ require("java").setup {
 
 - [x] Detect file renames in nvim-tree and automatically update the class name and every associated files with the symbol.
 - [x] Snippet integration with LuaSnip
- - [x] type `class`, `interface` or `enum` in an empty java file to automatically create a package and class/enum/interface declaration in the file.
+    - [x] type `class`, `interface` or `enum` in an empty java file to automatically create a package and class/enum/interface declaration in the file.
 
 ## After configuration
 Go to your nvim-tree pane and execute a simple `r` on a java file or a package. Magic will happen and you will not have to do anything 🙃.
