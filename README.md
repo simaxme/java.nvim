@@ -55,6 +55,10 @@ require("java").setup {
     },
     snippets = {
         enable = true -- enable the functionality for java snippets
+    },
+    root_markers = { -- markers for detecting the package path (the package path should start *after* the marker)
+        "main/java/",
+        "test/java/"
     }
 }
 ```
@@ -64,6 +68,8 @@ require("java").setup {
 - [x] Detect file renames in nvim-tree and automatically update the class name and every associated files with the symbol.
 - [x] Snippet integration with LuaSnip
     - [x] type `class`, `interface` or `enum` in an empty java file to automatically create a package and class/enum/interface declaration in the file.
+    - [ ] autorun snippets for class creation
+    - [ ] javadoc snippets
 
 ## After configuration
 Go to your nvim-tree pane and execute a simple `r` on a java file or a package. Magic will happen and you will not have to do anything 🙃.
