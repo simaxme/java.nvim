@@ -20,6 +20,20 @@ function utils.split(pString, pPattern)
    return Table
 end
 
+function utils.split_with_patterns(pString, pPatternTable)
+   local Table = {}  -- NOTE: use {n = 0} in Lua-5.0
+
+   for _, pattern in ipairs(pPatternTable) do
+       Table = utils.split(pString, pattern)
+
+       if #Table > 1 then
+         break
+       end
+       -- The pattern could not be found
+   end
+   return Table
+end
+
 -- check if a path is a directory
 function utils.is_dir(path)
     local f = io.open(path, "r")

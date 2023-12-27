@@ -18,15 +18,12 @@ local options = require("java.rename.options")
 -- @param path the full path of the package
 -- @return the package_name in dot-seperated format
 local function get_package_name(path)
-    -- find the relative root path by splitting the array (should always be "main/java" or "test/java")
-    local parts = utils.split(path, "main/java/")
+    local root_markers = options.get_rename_options().root_markers
 
-    -- if main/java could not be found, try test/java
-    if #parts <= 1 then
-        parts = utils.split(path, "test/java/")
-    end
+    -- find the relative root path by splitting the array, which is defined by options.root_markers
+    local parts = utils.split_with_patterns(path, root_markers)
 
-    -- if main/java or test/java could not be found, cancel
+    -- if any of the root markers could not be found, cancel
     if #parts <= 1 then
         return nil
     end
