@@ -7,7 +7,7 @@ local options = require("java.rename.options")
 
 -- generate a regex for looking for import statements
 -- @param class_path the class path to look for
-local function generate_import_regex(class_path)
+function fix_import_declaration.generate_import_regex(class_path)
     local mapped = class_path:gsub("%.", "%%.")
 
     return string.format(
@@ -27,7 +27,7 @@ local function delete_import_declarations(new_folder, old_class_path)
     for _, file in ipairs(contents) do
         local state = buffer.open(file)
 
-        local regex = generate_import_regex(old_class_path)
+        local regex = fix_import_declaration.generate_import_regex(old_class_path)
 
         local lines = buffer.read_buffer_lines()
 
@@ -44,6 +44,26 @@ local function delete_import_declarations(new_folder, old_class_path)
     end
 end
 
+--- will insert an import statement into the content
+function fix_import_declaration.add_import_statement(content, statement)
+    local regex = "import( +)([A-Za-z%.]*)( *)%;"
+
+    local start_index, end_index = string.find(content, regex)
+
+    -- if there is no import statement, insert the import statement after the package declaration
+    if start_index == nil then
+        local regex = "package( +)([A-Za-z%.]*)( *)%;( *)\n"
+        start_index, end_index = string.find(content, regex)
+        start_index = end_index+1
+
+        statement = "\n" .. statement
+    else
+        statement = statement .. "\n"
+    end
+
+    return content:sub(0, start_index - 1) .. statement .. content:sub(start_index, #content)
+end
+
 -- add import declarations of the new class name to the classes of the old folder
 -- @param old_folder the path of the old_folder
 -- @param new_class_path the path of the new class
@@ -57,22 +77,9 @@ local function add_import_declerations(old_folder, new_class_path, old_class_nam
         local state = buffer.open(old_folder .. "/" .. file)
 
         local lines = buffer.read_buffer_lines()
+        local addition = "import " .. new_class_path .. ";"
 
-        local regex = "import( +)([A-Za-z%.]*)( *)%;"
-
-        local start_index, end_index = string.find(lines, regex)
-        local addition = "import " .. new_class_path .. ";\n"
-
-        -- if there is no import statement, insert the import statement after the package declaration
-        if start_index == nil then
-            local regex = "package( +)([A-Za-z%.]*)( *)%;( *)\n"
-            start_index, end_index = string.find(lines, regex)
-            start_index = end_index+1
-
-            addition = "\nimport " .. new_class_path .. ";"
-        end
-
-        local result = lines:sub(0, start_index - 1) .. addition .. lines:sub(start_index, #lines)
+        local result = fix_import_declaration.add_import_statement(lines, addition)
 
         buffer.write_buffer_lines(result)
 

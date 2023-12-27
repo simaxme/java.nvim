@@ -4,7 +4,7 @@ local buffer = require("java.rename.buffer")
 
 -- will generate a regex for looking for symbol usages inside the current buffer
 -- @param class_name the class_name or symbol to look for
-local function generate_regex(class_name)
+function symbol_usage.generate_regex(class_name)
     return string.format(
         "[%%s,;%%(}<]%s[%%s,;%%(}%%.>]",
         class_name
@@ -15,7 +15,7 @@ end
 -- @param old_class_name the old class name
 -- @param new_class_name the new class name
 function symbol_usage.replace_symbol_usage(old_class_name, new_class_name)
-    local regex = generate_regex(old_class_name)
+    local regex = symbol_usage.generate_regex(old_class_name)
 
     local lines = buffer.read_buffer_lines()
 

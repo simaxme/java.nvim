@@ -9,6 +9,7 @@ local regex_package_declaration = require("java.rename.regex.package-declaration
 local regex_import_declaration = require("java.rename.regex.import-declaration")
 local regex_symbol_usage = require("java.rename.regex.symbol-usage")
 local regex_fix_import_declaration = require("java.rename.regex.fix-import-declaration")
+local regex_moved_class_imports = require("java.rename.regex.moved-class-imports")
 
 local rename_options = require("java.rename.options")
 local options = require("java.options")
@@ -87,6 +88,9 @@ function java_rename.on_rename_file(old_name, new_name)
     -- fix class and package declaration for the renamed buffer
     regex_class_declaration.replace_class_declaration(old_class_name, new_class_name)
     regex_package_declaration.replace_package_declaration(old_package_name, new_package_name)
+    regex_moved_class_imports.add_class_imports(old_folder, old_package_name)
+    regex_moved_class_imports.remove_class_imports(new_folder, new_package_name)
+
 
     -- if option is set, write the buffer and close it
     if opts.write_and_close then
