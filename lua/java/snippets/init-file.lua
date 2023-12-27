@@ -5,6 +5,7 @@ local fmt = require("luasnip.extras.fmt").fmt
 local i = ls.insert_node
 local f = ls.function_node
 local utils = require("java.rename.utils")
+local options = require("java.rename.options")
 
 local function getShiftWidth()
     return vim.api.nvim_buf_get_option(0, "shiftwidth")
@@ -12,14 +13,11 @@ end
 
 local function getPackageName()
     local folder = vim.fn.expand("%:h")
+    local root_markers = options.get_rename_options().root_markers
 
-    local splitted = utils.split(folder, "main/java/")
+    local splitted = utils.split_with_patterns(folder, root_markers)
 
-    -- if main/java could not be found, try test/java
-    if #splitted <= 1 then
-        splitted = utils.split(folder, "test/java/")
-    end
-
+    -- if any of the root markers could not be found, cancel
     if #splitted <= 1 then
         return ""
     end
