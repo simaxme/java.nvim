@@ -10,7 +10,8 @@ local regex_import_declaration = require("java.rename.regex.import-declaration")
 local regex_symbol_usage = require("java.rename.regex.symbol-usage")
 local regex_fix_import_declaration = require("java.rename.regex.fix-import-declaration")
 
-local options = require("java.rename.options")
+local rename_options = require("java.rename.options")
+local options = require("java.options")
 
 
 -- function that returns the package name of a given path
@@ -18,7 +19,7 @@ local options = require("java.rename.options")
 -- @param path the full path of the package
 -- @return the package_name in dot-seperated format
 local function get_package_name(path)
-    local root_markers = options.get_rename_options().root_markers
+    local root_markers = options.get_java_options().root_markers
 
     -- find the relative root path by splitting the array, which is defined by options.root_markers
     local parts = utils.split_with_patterns(path, root_markers)
@@ -78,7 +79,7 @@ function java_rename.on_rename_file(old_name, new_name)
     local old_class_path = old_package_name .. "." .. old_class_name
     local new_class_path = new_package_name .. "." .. new_class_name
 
-    local opts = options.get_rename_options()
+    local opts = rename_options.get_rename_options()
 
     -- replace class name declaration in class file
     local state = buffer.open(new_name)
@@ -121,9 +122,9 @@ end
 
 -- setup the java rename plugin with options, see README.md for further information
 function java_rename.setup(opts)
-    options.setup(opts)
+    rename_options.setup(opts)
 
-    local opts = options.get_rename_options()
+    local opts = rename_options.get_rename_options()
 
     if not opts.enable then
         return
