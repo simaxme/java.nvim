@@ -9,10 +9,6 @@ function rename_options.setup(opts)
             enable = true,
             nvimtree = true,
             write_and_close = false,
-            root_markers = {
-              "main/java/",
-              "test/java/"
-            }
         }
     end
 
@@ -28,12 +24,6 @@ function rename_options.setup(opts)
         opts.write_and_close = false
     end
 
-    if opts.root_markers == nil then
-        opts.root_markers = {
-          "main/java/",
-          "test/java/"
-        }
-    end
 
     options = opts
 end
