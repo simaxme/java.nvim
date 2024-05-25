@@ -1,18 +1,18 @@
 local java_rename = {}
 
-local utils = require("java.rename.utils")
-local ripgrep = require("java.rename.ripgrep")
-local buffer = require("java.rename.buffer")
+local utils = require("simaxme-java.rename.utils")
+local ripgrep = require("simaxme-java.rename.ripgrep")
+local buffer = require("simaxme-java.rename.buffer")
 
-local regex_class_declaration = require("java.rename.regex.class-declaration")
-local regex_package_declaration = require("java.rename.regex.package-declaration")
-local regex_import_declaration = require("java.rename.regex.import-declaration")
-local regex_symbol_usage = require("java.rename.regex.symbol-usage")
-local regex_fix_import_declaration = require("java.rename.regex.fix-import-declaration")
-local regex_moved_class_imports = require("java.rename.regex.moved-class-imports")
+local regex_class_declaration = require("simaxme-java.rename.regex.class-declaration")
+local regex_package_declaration = require("simaxme-java.rename.regex.package-declaration")
+local regex_import_declaration = require("simaxme-java.rename.regex.import-declaration")
+local regex_symbol_usage = require("simaxme-java.rename.regex.symbol-usage")
+local regex_fix_import_declaration = require("simaxme-java.rename.regex.fix-import-declaration")
+local regex_moved_class_imports = require("simaxme-java.rename.regex.moved-class-imports")
 
-local rename_options = require("java.rename.options")
-local options = require("java.options")
+local rename_options = require("simaxme-java.rename.options")
+local options = require("simaxme-java.options")
 
 
 -- function that returns the package name of a given path
@@ -135,7 +135,7 @@ function java_rename.setup(opts)
     end
 
     if opts.nvimtree then
-        require("java.rename.nvim-tree").setup()
+        require("simaxme-java.rename.nvim-tree").setup()
     end
 end
 

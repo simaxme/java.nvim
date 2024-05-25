@@ -1,9 +1,9 @@
 local fix_import_declaration = {}
 
-local utils = require("java.rename.utils")
-local buffer = require("java.rename.buffer")
-local ripgrep = require("java.rename.ripgrep")
-local options = require("java.rename.options")
+local utils = require("simaxme-java.rename.utils")
+local buffer = require("simaxme-java.rename.buffer")
+local ripgrep = require("simaxme-java.rename.ripgrep")
+local options = require("simaxme-java.rename.options")
 
 -- generate a regex for looking for import statements
 -- @param class_path the class path to look for

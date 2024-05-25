@@ -1,9 +1,9 @@
 local moved_class_imports = {}
 
-local utils = require("java.rename.utils")
-local symbol_usage = require("java.rename.regex.symbol-usage")
-local buffer = require("java.rename.buffer")
-local fix_import_declaration = require("java.rename.regex.fix-import-declaration")
+local utils = require("simaxme-java.rename.utils")
+local symbol_usage = require("simaxme-java.rename.regex.symbol-usage")
+local buffer = require("simaxme-java.rename.buffer")
+local fix_import_declaration = require("simaxme-java.rename.regex.fix-import-declaration")
 
 --- will add class imports to the moved file
 -- @param old_folder the old folder path

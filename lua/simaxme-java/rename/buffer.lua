@@ -1,6 +1,6 @@
 local buffer = {}
 
-local utils = require("java.rename.utils")
+local utils = require("simaxme-java.rename.utils")
 
 -- will read all lines of the current buffer (seperated by \n)
 function buffer.read_buffer_lines()

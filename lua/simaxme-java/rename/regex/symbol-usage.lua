@@ -1,6 +1,6 @@
 local symbol_usage = {}
 
-local buffer = require("java.rename.buffer")
+local buffer = require("simaxme-java.rename.buffer")
 
 -- will generate a regex for looking for symbol usages inside the current buffer
 -- @param class_name the class_name or symbol to look for

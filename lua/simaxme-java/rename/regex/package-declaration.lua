@@ -1,6 +1,6 @@
 local package_declaration = {}
 
-local buffer = require("java.rename.buffer")
+local buffer = require("simaxme-java.rename.buffer")
 
 -- generate a regex for looking for package declartions
 local function generate_regex(package_path)

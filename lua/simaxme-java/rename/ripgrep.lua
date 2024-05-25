@@ -1,6 +1,6 @@
 local ripgrep = {}
 
-local utils = require("java.rename.utils")
+local utils = require("simaxme-java.rename.utils")
 
 -- search files in a given folder using a specific regex with ripgrep
 -- @param regex to search for, should not use look-behind and look-ahead (not supported by ripgrep)

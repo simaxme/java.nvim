@@ -4,8 +4,8 @@ local ls = require("luasnip")
 local fmt = require("luasnip.extras.fmt").fmt
 local i = ls.insert_node
 local f = ls.function_node
-local utils = require("java.rename.utils")
-local options = require("java.options")
+local utils = require("simaxme-java.rename.utils")
+local options = require("simaxme-java.options")
 
 local function getShiftWidth()
     return vim.api.nvim_buf_get_option(0, "shiftwidth")
