@@ -63,6 +63,12 @@ require("java").setup {
 }
 ```
 
+## Compatibility with nvim-java
+Due to the owner of the [nvim-java](https://github.com/nvim-java/nvim-java) also naming his package `java` there may be compatibility issues. If you are using this package, it is recommended to use the alias `simaxme-java`:
+```lua
+require("simaxme-java").setup()
+```
+
 ## All current functionalities
 
 - [x] Detect file renames in nvim-tree and automatically update the class name and every associated files with the symbol.
