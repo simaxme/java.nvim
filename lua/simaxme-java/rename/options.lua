@@ -20,6 +20,7 @@ function rename_options.setup(opts)
         opts.nvimtree = true
     end
 
+
     if opts.write_and_close == nil then
         opts.write_and_close = false
     end

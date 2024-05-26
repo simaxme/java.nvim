@@ -5,7 +5,7 @@ local options = require("simaxme-java.options")
 
 -- initialise nvim tree integration
 -- will automaticly subscribe to the NodeRenamed event and execute the on_rename_file method
-function nvimTreeIntegration.setup()
+function nvimTreeIntegration.setup(nvim_tree_options)
     local java_rename = require("simaxme-java.rename")
     local utils = require("simaxme-java.rename.utils")
 
@@ -51,7 +51,6 @@ function nvimTreeIntegration.setup()
             end
         end
     end)
-
 
 end
 

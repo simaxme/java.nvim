@@ -140,7 +140,7 @@ function java_rename.setup(opts)
     end
 
     if opts.nvimtree then
-        require("simaxme-java.rename.nvim-tree").setup()
+        require("simaxme-java.rename.nvim-tree").setup({})
     end
 end
 
