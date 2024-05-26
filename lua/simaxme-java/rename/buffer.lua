@@ -43,13 +43,23 @@ end
 -- if the buffer already exists, it will focus it
 -- @param the file path for the file to open
 function buffer.open(name)
+    local data = "Opening " .. name
     if vim.fn.bufexists(name) == 1 then
+        data = data .. " exists"
+
         local bufnumber = vim.fn.bufnr(name)
-        vim.cmd.buffer(bufnumber)
-        return true
+
+
+        if (vim.api.nvim_buf_is_loaded(bufnumber)) then
+            vim.cmd.buffer(bufnumber)
+            return true
+        end
     end
 
     vim.cmd.edit(name)
+
+        
+    vim.notify(data)
 
     return false
 end
