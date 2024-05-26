@@ -32,7 +32,6 @@ function class_declaration.replace_class_declaration(old_class_name, new_class_n
     end
 
     if start_index == nil then
-        print("NOTHING FOUND")
         return
     end
 
