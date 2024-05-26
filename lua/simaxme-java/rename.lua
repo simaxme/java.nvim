@@ -58,7 +58,8 @@ end
 -- this function should be executed *after* the file was renamed
 -- @param old_name the old/current file path that should be absolute or relative to the project root
 -- @param new_name the old/current file path that should be absolute or relative to the project root
-function java_rename.on_rename_file(old_name, new_name)
+-- @param whether the file rename is associated with a package rename
+function java_rename.on_rename_file(old_name, new_name, is_package_rename)
     -- extract the folder names from the file names, removes the last part of the path
     local old_folder = old_name:gsub("%/([%w%.]*)$", "")
     local new_folder = new_name:gsub("%/([%w%.]*)$", "")
@@ -88,9 +89,11 @@ function java_rename.on_rename_file(old_name, new_name)
     -- fix class and package declaration for the renamed buffer
     regex_class_declaration.replace_class_declaration(old_class_name, new_class_name)
     regex_package_declaration.replace_package_declaration(old_package_name, new_package_name)
-    regex_moved_class_imports.add_class_imports(old_folder, old_package_name)
-    regex_moved_class_imports.remove_class_imports(new_folder, new_package_name)
 
+    if not is_package_rename then
+        regex_moved_class_imports.add_class_imports(old_folder, old_package_name)
+        regex_moved_class_imports.remove_class_imports(new_folder, new_package_name)
+    end
 
     -- if option is set, write the buffer and close it
     if opts.write_and_close then
@@ -101,7 +104,9 @@ function java_rename.on_rename_file(old_name, new_name)
     end
 
     -- fix import declarations -> remove import statements for classes in new folder and add import statements for classes in old folder
-    regex_fix_import_declaration.fix_import_declarations(old_folder, new_folder, old_class_path, new_class_path, old_class_name)
+    if not is_package_rename then
+        regex_fix_import_declaration.fix_import_declarations(old_folder, new_folder, old_class_path, new_class_path, old_class_name)
+    end
 
     -- search occurences of the old class name
     local occurences = ripgrep.searchRegex(old_class_name)

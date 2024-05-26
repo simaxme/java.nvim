@@ -1,5 +1,8 @@
 local nvimTreeIntegration = {}
 
+local utils = require("simaxme-java.rename.utils")
+local options = require("simaxme-java.options")
+
 -- initialise nvim tree integration
 -- will automaticly subscribe to the NodeRenamed event and execute the on_rename_file method
 function nvimTreeIntegration.setup()
@@ -19,7 +22,15 @@ function nvimTreeIntegration.setup()
         local is_java_file = string.find(data.old_name, regex) ~= nil and string.find(data.new_name, regex) ~= nil
 
         if not is_java_file then
-            return
+            local root_markers = options.get_java_options().root_markers
+
+            -- find the relative root path by splitting the array, which is defined by options.root_markers
+            local parts = utils.split_with_patterns(data.old_name, root_markers)
+
+            -- if any of the root markers could not be found, cancel
+            if #parts <= 1 then
+                return nil
+            end
         end
 
         local old_name = data.old_name
@@ -36,7 +47,7 @@ function nvimTreeIntegration.setup()
                 local old_file = old_name .. "/" .. file
                 local new_file = new_name .. "/" .. file
 
-                java_rename.on_rename_file(old_file, new_file)
+                java_rename.on_rename_file(old_file, new_file, true)
             end
         end
     end)
