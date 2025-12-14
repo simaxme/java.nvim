@@ -1,3 +1,10 @@
+# THIS REPOSITORY IS ARCHIVED
+
+This repository is archived and will not be developed any further. If you like the non-lsp-renaming technique using regex behind this plugin, feel free to fork this plugin and develop it further.
+
+If your interested into using the java snippets of this plugin, look [here](https://github.com/simaxme/java-snippets.nvim).
+
+
 <p align="center">
     <img src="https://github.com/simaxme/java.nvim/blob/main/images/neovim_java.png?raw=true" align="center" width="100">
 </p>
