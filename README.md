@@ -1,9 +1,14 @@
 # THIS REPOSITORY IS ARCHIVED
 
-This repository is archived and will not be developed any further. If you like the non-lsp-renaming technique using regex behind this plugin, feel free to fork this plugin and develop it further.
+This repository is archived and will not be developed any further. If you like the non-lsp-renaming technique using regex behind this plugin, feel free to fork this plugin.
 
-If your interested into using the java snippets of this plugin, look [here](https://github.com/simaxme/java-snippets.nvim).
+Otherwise, I can recommend using the [nvim-jdtls](https://github.com/mfussenegger/nvim-jdtls) plugin. Though this still does not seem to properly work with the `willRename` event, you can move the class using the appropriate code action provided by the plugin when hovering over a class name.
+This mainly is the reason why I will stop developing this plugin. Because there already is a (better) solution.
 
+
+If your interested into using the java snippets-part of this plugin, please look [here](https://github.com/simaxme/java-snippets.nvim).
+
+---
 
 <p align="center">
     <img src="https://github.com/simaxme/java.nvim/blob/main/images/neovim_java.png?raw=true" align="center" width="100">
