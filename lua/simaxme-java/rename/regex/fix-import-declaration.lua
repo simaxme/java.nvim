@@ -4,6 +4,7 @@ local utils = require("simaxme-java.rename.utils")
 local buffer = require("simaxme-java.rename.buffer")
 local ripgrep = require("simaxme-java.rename.ripgrep")
 local options = require("simaxme-java.rename.options")
+local file_refactor = require("simaxme-java.rename.file-refactor")
 
 -- generate a regex for looking for import statements
 -- @param class_path the class path to look for
@@ -25,15 +26,16 @@ local function delete_import_declarations(new_folder, old_class_path)
     local contents = utils.list_folder_contents(new_folder)
 
     for _, file in ipairs(contents) do
-        local state = buffer.open(file)
+        -- local state = buffer.open(file)
 
         local regex = fix_import_declaration.generate_import_regex(old_class_path)
 
-        local lines = buffer.read_buffer_lines()
+        local lines = file_refactor.get_file_content(file)
 
         local result = string.gsub(lines, regex, "")
 
-        buffer.write_buffer_lines(result)
+        -- buffer.write_buffer_lines(result)
+        file_refactor.add_rewrite_request(file, result)
 
         if opts.write_and_close then
             vim.cmd.write()
@@ -74,14 +76,19 @@ local function add_import_declerations(old_folder, new_class_path, old_class_nam
     local contents = ripgrep.searchRegex(old_class_name, old_folder, 1)
 
     for _, file in ipairs(contents) do
-        local state = buffer.open(old_folder .. "/" .. file)
+        -- local state = buffer.open(old_folder .. "/" .. file)
 
-        local lines = buffer.read_buffer_lines()
+        local path = old_folder .. "/" .. file
+
+        -- local lines = buffer.read_buffer_lines()
+        local lines = file_refactor.get_file_content(path)
+
         local addition = "import " .. new_class_path .. ";"
 
         local result = fix_import_declaration.add_import_statement(lines, addition)
 
-        buffer.write_buffer_lines(result)
+        file_refactor.add_rewrite_request(path, result)
+        -- buffer.write_buffer_lines(result)
 
         if opts.write_and_close then
             vim.cmd.write()

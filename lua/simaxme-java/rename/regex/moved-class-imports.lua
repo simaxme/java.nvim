@@ -2,14 +2,15 @@ local moved_class_imports = {}
 
 local utils = require("simaxme-java.rename.utils")
 local symbol_usage = require("simaxme-java.rename.regex.symbol-usage")
-local buffer = require("simaxme-java.rename.buffer")
+-- local buffer = require("simaxme-java.rename.buffer")
+local file_refactor = require("simaxme-java.rename.file-refactor")
 local fix_import_declaration = require("simaxme-java.rename.regex.fix-import-declaration")
 
 --- will add class imports to the moved file
 -- @param old_folder the old folder path
 -- @param old_package_name the old package name
-function moved_class_imports.add_class_imports(old_folder, old_package_name)
-    local buffer_content = buffer.read_buffer_lines()
+function moved_class_imports.add_class_imports(file_path, old_folder, old_package_name)
+    local buffer_content = file_refactor.get_file_content(file_path)
 
     -- load all classes inside the folder
     local contents = utils.list_folder_contents(old_folder)
@@ -33,11 +34,11 @@ function moved_class_imports.add_class_imports(old_folder, old_package_name)
         end
     end
 
-    buffer.write_buffer_lines(buffer_content)
+    file_refactor.add_rewrite_request(file_path, buffer_content)
 end
 
-function moved_class_imports.remove_class_imports(new_folder, new_package_name)
-    local buffer_content = buffer.read_buffer_lines()
+function moved_class_imports.remove_class_imports(file_path, new_folder, new_package_name)
+    local buffer_content = file_refactor.get_file_content(file_path)
 
     local contents = utils.list_folder_contents(new_folder)
 
@@ -55,7 +56,7 @@ function moved_class_imports.remove_class_imports(new_folder, new_package_name)
         end
     end
 
-    buffer.write_buffer_lines(buffer_content)
+    file_refactor.add_rewrite_request(file_path, buffer_content)
 end
 
 return moved_class_imports

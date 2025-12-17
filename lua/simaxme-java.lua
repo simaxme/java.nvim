@@ -9,7 +9,7 @@ function java.setup(opts)
         opts = {}
     end
 
-    
+
     options.setup(opts)
     rename.setup(opts.rename)
     snippets.setup(opts.snippets)

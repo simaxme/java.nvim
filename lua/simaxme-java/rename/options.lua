@@ -25,6 +25,10 @@ function rename_options.setup(opts)
         opts.write_and_close = false
     end
 
+    if opts.telescope == nil then
+        opts.telescope = false
+    end
+
 
     options = opts
 end

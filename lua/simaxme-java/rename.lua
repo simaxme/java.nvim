@@ -14,6 +14,7 @@ local regex_moved_class_imports = require("simaxme-java.rename.regex.moved-class
 local rename_options = require("simaxme-java.rename.options")
 local options = require("simaxme-java.options")
 
+local file_refactor = require("simaxme-java.rename.file-refactor")
 
 -- function that returns the package name of a given path
 -- will look for the folder main/java or test/java to identify the package name
@@ -53,13 +54,33 @@ function java_rename.rename_file(old_name, new_name)
     java_rename.on_rename_file(old_name, new_name)
 end
 
-
 -- handles a file rename and will update each java class file automatically
 -- this function should be executed *after* the file was renamed
 -- @param old_name the old/current file path that should be absolute or relative to the project root
 -- @param new_name the old/current file path that should be absolute or relative to the project root
 -- @param whether the file rename is associated with a package rename
 function java_rename.on_rename_file(old_name, new_name, is_package_rename)
+    local is_dir = utils.is_dir(new_name)
+
+    if not is_package_rename then
+        file_refactor.clear_rewrite_request()
+    end
+
+    if is_dir then
+        local files = utils.list_folder_contents_recursive(new_name)
+
+        for i, file in ipairs(files) do
+            local old_file = old_name .. "/" .. file
+            local new_file = new_name .. "/" .. file
+
+            java_rename.on_rename_file(old_file, new_file, true)
+        end
+
+        file_refactor.write_requests()
+
+        return
+    end
+
     -- extract the folder names from the file names, removes the last part of the path
     local old_folder = old_name:gsub("%/([%w%.]*)$", "")
     local new_folder = new_name:gsub("%/([%w%.]*)$", "")
@@ -83,50 +104,52 @@ function java_rename.on_rename_file(old_name, new_name, is_package_rename)
 
     local opts = rename_options.get_rename_options()
 
-    -- replace class name declaration in class file
-    local state = buffer.open(new_name)
-
     -- fix class and package declaration for the renamed buffer
-    regex_class_declaration.replace_class_declaration(old_class_name, new_class_name)
-    regex_package_declaration.replace_package_declaration(old_package_name, new_package_name)
+    regex_class_declaration.replace_class_declaration(new_name, old_class_name, new_class_name)
+    regex_package_declaration.replace_package_declaration(new_name, old_package_name, new_package_name)
 
     if not is_package_rename then
-        regex_moved_class_imports.add_class_imports(old_folder, old_package_name)
-        regex_moved_class_imports.remove_class_imports(new_folder, new_package_name)
+        regex_moved_class_imports.add_class_imports(new_name, old_folder, old_package_name)
+        regex_moved_class_imports.remove_class_imports(new_name, new_folder, new_package_name)
     end
 
     -- if option is set, write the buffer and close it
-    if opts.write_and_close then
-        vim.cmd.write()
-        if not state then
-            vim.cmd.bd()
-        end
-    end
+    -- if opts.write_and_close then
+    --     vim.cmd.write()
+    --     if not state then
+    --         vim.cmd.bd()
+    --     end
+    -- end
 
     -- fix import declarations -> remove import statements for classes in new folder and add import statements for classes in old folder
     if not is_package_rename then
-        regex_fix_import_declaration.fix_import_declarations(old_folder, new_folder, old_class_path, new_class_path, old_class_name)
+        regex_fix_import_declaration.fix_import_declarations(old_folder, new_folder, old_class_path, new_class_path,
+            old_class_name)
     end
 
     -- search occurences of the old class name
     local occurences = ripgrep.searchRegex(old_class_name)
 
     for _, file in ipairs(occurences) do
-        local state = buffer.open(file)
+        -- local state = buffer.open(file)
 
         -- replace import and symbol usages of the old class name
-        regex_import_declaration.replace_import_declaration(old_class_path, new_class_path)
-        regex_symbol_usage.replace_symbol_usage(old_class_name, new_class_name)
+        regex_import_declaration.replace_import_declaration(file, old_class_path, new_class_path)
+        regex_symbol_usage.replace_symbol_usage(file, old_class_name, new_class_name)
 
-        if opts.write_and_close then
-            vim.cmd.write()
-            if not state then
-                vim.cmd.bd()
-            end
-        end
+        -- if opts.write_and_close then
+        --     vim.cmd.write()
+        --     if not state then
+        --         vim.cmd.bd()
+        --     end
+        -- end
     end
 
-    buffer.open(new_name)
+    if not is_package_rename then
+        file_refactor.write_requests()
+    end
+
+    -- buffer.open(new_name)
 end
 
 -- setup the java rename plugin with options, see README.md for further information
@@ -144,6 +167,4 @@ function java_rename.setup(opts)
     end
 end
 
-
 return java_rename
-

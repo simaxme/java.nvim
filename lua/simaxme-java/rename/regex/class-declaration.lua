@@ -1,10 +1,10 @@
 local class_declaration = {}
 
-local buffer = require("simaxme-java.rename.buffer")
+local file_refactor = require("simaxme-java.rename.file-refactor")
 
 -- will look for the class declaration in the renamed java file and rename the class name
-function class_declaration.replace_class_declaration(old_class_name, new_class_name)
-    local line_result = buffer.read_buffer_lines()
+function class_declaration.replace_class_declaration(file_path, old_class_name, new_class_name)
+    local line_result = file_refactor.get_file_content(file_path)
 
     local regex = string.format(
         "class(%%s+)%s(%%s*){",
@@ -45,7 +45,8 @@ function class_declaration.replace_class_declaration(old_class_name, new_class_n
         new_class_name ..
         string.sub(line_result, dist_index + #old_class_name, #line_result)
 
-    buffer.write_buffer_lines(result)
+    -- buffer.write_buffer_lines(result)
+    file_refactor.add_rewrite_request(file_path, result)
 end
 
 return class_declaration

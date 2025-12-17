@@ -36,20 +36,8 @@ function nvimTreeIntegration.setup(nvim_tree_options)
         local old_name = data.old_name
         local new_name = utils.realpath(data.new_name)
 
-        local is_dir = utils.is_dir(new_name)
+        java_rename.on_rename_file(old_name, new_name)
 
-        if not is_dir then
-            java_rename.on_rename_file(old_name, new_name)
-        else
-            local files = utils.list_folder_contents_recursive(new_name)
-
-            for i, file in ipairs(files) do
-                local old_file = old_name .. "/" .. file
-                local new_file = new_name .. "/" .. file
-
-                java_rename.on_rename_file(old_file, new_file, true)
-            end
-        end
     end)
 
 end
